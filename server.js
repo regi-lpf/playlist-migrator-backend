@@ -16,7 +16,7 @@ const client_secret = env.GOOGLE_CLIENT_SECRET;
 const redirect_uri = env.GOOGLE_REDIRECT_URI;
 
 app.use(cors({
-  origin: 'https://regilpf-s2y.vercel.app/', 
+  origin: 'https://regilpf-s2y.vercel.app', 
   credentials: true
 }));
 
