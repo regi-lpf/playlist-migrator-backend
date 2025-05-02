@@ -73,6 +73,18 @@ async function getSpotifyToken(clientId, clientSecret) {
     if (!res.ok) throw new Error(data.error_description || 'Failed to fetch Spotify token');
     return data.access_token;
   }
+
+  async function getSpotifyPlaylistName(token, playlistId){
+    let url = `https://api.spotify.com/v1/playlists/${playlistId}`;
+
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || 'Failed to fetch playlist details');
+
+    return data.name.toString();
+  }
   
   // Utility to get all tracks from a Spotify playlist
   async function getSpotifyTracks(token, playlistId) {
@@ -119,10 +131,11 @@ async function getSpotifyToken(clientId, clientSecret) {
       const youtube = google.youtube({ version: 'v3', auth: oauth2Client });
   
       if (!youtubeId) {
+        const newPlaylistName = await getSpotifyPlaylistName(spotifyToken, playlistId);
         const newPlaylist = await youtube.playlists.insert({
           part: 'snippet,status',
           requestBody: {
-            snippet: { title: 'Migrada do Spotify', description: 'Importada automaticamente' },
+            snippet: { title: newPlaylistName, description: 'Migrated with regi_lpf\'s S2Y' },
             status: { privacyStatus: 'private' }
           }
         });
