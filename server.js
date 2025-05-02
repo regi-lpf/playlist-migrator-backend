@@ -16,7 +16,7 @@ const client_secret = env.GOOGLE_CLIENT_SECRET;
 const redirect_uri = env.GOOGLE_REDIRECT_URI;
 
 app.use(cors({
-  origin: 'https://spotitube-psi.vercel.app', 
+  origin: 'https://regilpf-s2y.vercel.app/', 
   credentials: true
 }));
 
@@ -48,7 +48,7 @@ app.get('/oauth2callback', async (req, res) => {
     oauth2Client.setCredentials(tokens);  // Store the tokens in the OAuth client
     
     const token = tokens.access_token;  // Extract the access token
-    res.redirect(`https://spotitube-psi.vercel.app/youtube-auth-success.html?token=${token}`);  // Redirect to the success page with the token
+    res.redirect(`https://regilpf-s2y.vercel.app/youtube-auth-success.html?token=${token}`);  // Redirect to the success page with the token
 });
 
 
