@@ -22,7 +22,6 @@ const __dirname = path.dirname(__filename);
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '../frontend')));
 
 const oauth2Client = new google.auth.OAuth2(
     client_id,
