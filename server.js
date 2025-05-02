@@ -143,7 +143,7 @@ async function getSpotifyToken(clientId, clientSecret) {
       res.json({ youtubePlaylistUrl: `https://www.youtube.com/playlist?list=${youtubeId}` });
     } catch (error) {
       console.error(error);
-      res.status(500).send("Couldn't migrate playlist");
+      res.status(500).json("Couldn't migrate playlist");
     }
   });
   
