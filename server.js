@@ -5,10 +5,7 @@ import dotenv from 'dotenv';
 import { env } from 'process';
 import cors from 'cors';
 import { google } from 'googleapis';
-import open from 'open';
-import path from 'path';
 import bodyParser from 'body-parser';
-import { fileURLToPath } from 'url';
 
 dotenv.config();
 
@@ -16,11 +13,13 @@ const app = express();
 const port = env.PORT;
 const client_id = env.GOOGLE_CLIENT_ID;
 const client_secret = env.GOOGLE_CLIENT_SECRET;
-const redirect_uri = "http://localhost:3003/oauth2callback";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const redirect_uri = env.GOOGLE_REDIRECT_URI;
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://spotitube-psi.vercel.app', 
+  credentials: true
+}));
+
 app.use(bodyParser.json());
 
 const oauth2Client = new google.auth.OAuth2(
@@ -31,7 +30,7 @@ const oauth2Client = new google.auth.OAuth2(
 
 function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-  }
+};
 
 
 app.get('/auth/youtube', (req, res) => {
@@ -49,7 +48,7 @@ app.get('/oauth2callback', async (req, res) => {
     oauth2Client.setCredentials(tokens);  // Store the tokens in the OAuth client
     
     const token = tokens.access_token;  // Extract the access token
-    res.redirect(`/youtube-auth-success.html?token=${token}`);  // Redirect to the success page with the token
+    res.redirect(`https://spotitube-psi.vercel.app/youtube-auth-success.html?token=${token}`);  // Redirect to the success page with the token
 });
 
 
@@ -174,5 +173,5 @@ async function getSpotifyToken(clientId, clientSecret) {
   
 
 app.listen(port, () => {
-  console.log(`Servidor rodando em http://localhost:${port}`);
+  console.log(`Servidor rodando em ${port}`);
 });
