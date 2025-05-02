@@ -147,7 +147,7 @@ async function getSpotifyToken(clientId, clientSecret) {
     }
   });
   
-  async function insertVideo(youtube, playlistId, videoId, retries = 1) {
+  async function insertVideo(youtube, playlistId, videoId, retries = 5) {
     try {
       await youtube.playlistItems.insert({
         part: 'snippet',
