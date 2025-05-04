@@ -155,7 +155,8 @@ async function getSpotifyToken(clientId, clientSecret) {
   
       res.json({ youtubePlaylistUrl: `https://www.youtube.com/playlist?list=${youtubeId}` });
     } catch (error) {
-      res.status(500).json({status: error.status, error: error.errors[0].message});
+      console.error(error);
+      res.status(500).json({status: error.status, error: error.errors.message});
     }
   });
   
