@@ -103,9 +103,35 @@ async function getSpotifyTracks(token, playlistId) {
 }
 
 app.post('/migrate/spotify-to-youtube', async (req, res) => {
-  const { spotifyUrl, youtubeUrl, userAccessToken, userRefreshToken, userId } = req.body;
+  const { spotifyUrl, youtubeUrl, userAccessToken, userRefreshToken } = req.body;
 
-  if (!spotifyUrl || !userId) return res.status(400).json({ error: 'Spotify URL and user ID are required' });
+  if (!spotifyUrl || !userAccessToken || !userRefreshToken) {
+    return res.status(400).json({ error: 'Spotify URL and YouTube tokens are required' });
+  }
+
+  // Get user ID from YouTube API
+  const userOAuth = new google.auth.OAuth2(client_id, client_secret, redirect_uri);
+  userOAuth.setCredentials({
+    access_token: userAccessToken,
+    refresh_token: userRefreshToken
+  });
+
+  const youtube = google.youtube({ version: 'v3', auth: userOAuth });
+
+  let userId;
+  try {
+    const userResponse = await youtube.channels.list({
+      part: 'id',
+      mine: true
+    });
+
+    userId = userResponse.data.items?.[0]?.id;
+    if (!userId) {
+      throw new Error('Failed to retrieve user ID from YouTube');
+    }
+  } catch (err) {
+    return res.status(500).json({ error: 'Could not retrieve user ID', details: err.message });
+  }
 
   if (userQueues.has(userId) && userQueues.get(userId).pending) {
     return res.status(429).json({ error: 'Migration already in progress for this user' });
