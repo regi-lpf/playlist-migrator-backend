@@ -6,7 +6,7 @@ import { env } from 'process';
 import cors from 'cors';
 import { google } from 'googleapis';
 import bodyParser from 'body-parser';
-import { search } from '@regi-lpf/s2y-query';
+import { search } from '@regi_lpf/s2y-query';
 
 dotenv.config();
 
