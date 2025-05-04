@@ -6,6 +6,7 @@ import { env } from 'process';
 import cors from 'cors';
 import { google } from 'googleapis';
 import bodyParser from 'body-parser';
+import { search } from '@regi-lpf/s2y-query';
 
 dotenv.config();
 
@@ -144,8 +145,8 @@ async function getSpotifyToken(clientId, clientSecret) {
   
       for (const t of tracks) {
         const q = `${t.artist} ${t.track}`;
-        const ytRes = await youtube.search.list({ part: 'snippet', q, maxResults: 1 });
-        const videoId = ytRes.data.items[0]?.id?.videoId;
+        const ytRes = await search(q);
+        const videoId = ytRes[0];
 
         if (videoId) {
             await insertVideo(youtube, youtubeId, videoId);
