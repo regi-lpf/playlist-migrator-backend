@@ -53,7 +53,6 @@ app.get('/oauth2callback', async (req, res) => {
   oauth2Client.setCredentials(tokens);
 
   const { access_token, refresh_token } = tokens;
-  res.redirect(`https://regilpf-s2y.vercel.app/youtube-auth-success.html?token=${access_token}&refresh=${refresh_token}`);
   
   res.cookie('accessToken', access_token, {
     httpOnly: true,
@@ -68,6 +67,8 @@ app.get('/oauth2callback', async (req, res) => {
     sameSite: 'None',
     maxAge: 1000 * 60 * 60 * 24 * 30
   });  
+
+  res.redirect(`https://regilpf-s2y.vercel.app/youtube-auth-success.html?token=${access_token}&refresh=${refresh_token}`);
 });
 
 app.get('/check-auth', (req, res) => {
@@ -120,10 +121,12 @@ async function getSpotifyTracks(token, playlistId) {
 }
 
 app.post('/migrate/spotify-to-youtube', async (req, res) => {
-  const { spotifyUrl, youtubeUrl, userAccessToken, userRefreshToken } = req.body;
+  const { spotifyUrl, youtubeUrl } = req.body;
+  const userAccessToken = req.cookies.accessToken;
+  const userRefreshToken = req.cookies.refreshToken;
 
   if (!spotifyUrl || !userAccessToken || !userRefreshToken) {
-    return res.status(400).json({ error: 'Spotify URL and YouTube tokens are required' });
+    return res.status(400).json({ error: 'Spotify URL and YouTube tokens (via cookies) are required' });
   }
 
   // Get user ID from YouTube API
