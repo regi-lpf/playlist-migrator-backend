@@ -51,6 +51,20 @@ app.get('/oauth2callback', async (req, res) => {
 
   const { access_token, refresh_token } = tokens;
   res.redirect(`https://regilpf-s2y.vercel.app/youtube-auth-success.html?token=${access_token}&refresh=${refresh_token}`);
+  
+  res.cookie('accessToken', accessToken, {
+    httpOnly: true,
+    secure: true,             // REQUIRED for SameSite=None
+    sameSite: 'None',         // REQUIRED for cross-site cookies
+    maxAge: 1000 * 60 * 60
+  });
+
+  res.cookie('refreshToken', refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'None',
+    maxAge: 1000 * 60 * 60 * 24 * 30
+  });  
 });
 
 app.get('/check-auth', (req, res) => {
