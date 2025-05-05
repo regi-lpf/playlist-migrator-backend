@@ -3,6 +3,7 @@ import fetch from 'node-fetch';
 import dotenv from 'dotenv';
 import { env } from 'process';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import { google } from 'googleapis';
 import bodyParser from 'body-parser';
 import { search } from '@regi_lpf/s2y-query';
@@ -14,6 +15,8 @@ const port = env.PORT;
 const client_id = env.GOOGLE_CLIENT_ID;
 const client_secret = env.GOOGLE_CLIENT_SECRET;
 const redirect_uri = env.GOOGLE_REDIRECT_URI;
+
+app.use(cookieParser());
 
 app.use(cors({
   origin: 'https://regilpf-s2y.vercel.app',
