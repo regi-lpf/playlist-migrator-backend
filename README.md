@@ -1,7 +1,7 @@
 # playlist-migrator-backend
 
 [![Vercel Deployment](https://img.shields.io/vercel/https/regilpf-s2y.vercel.app?style=for-the-badge&label=Frontend)](https://regilpf-s2y.vercel.app)
-[![Render Deployment](https://img.shields.io/badge/Backend-Render-blue?style=for-the-badge)](https://render.com)
+[![Render Deployment](https://img.shields.io/badge/Backend-Render-blue?style=for-the-badge)](https://playlist-migrator-backend.onrender.com)
 [![License](https://img.shields.io/github/license/regilpf/playlist-migrator-frontend?style=for-the-badge)](LICENSE)
 
 **Backend for the Spotify-to-YouTube playlist migrator**
@@ -48,4 +48,4 @@ Feel free to explore, open issues, suggest improvements, or contribute if you fi
 
 ---
 
-© 2025 [@regilpf](https://github.com/regilpf)
+© 2025 [@regi-lpf](https://github.com/regi-lpf)
